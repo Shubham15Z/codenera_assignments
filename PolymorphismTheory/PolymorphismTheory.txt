@@ -1,0 +1,684 @@
+1. Define polymorphism and explain its types in Java.
+Ans:
+	Polymorphism is one of the main pilers of the OOPs.
+	Polymorphism means an ability of object to take multiple forms.
+	There are two types of polymorphism:
+	1) Compile time polymorphism or Static polymorphism.
+	2) Runtime polymorphism or Dynamic Polymorphism.
+
+	1. Compile time Polymorphism:
+		This can be achieved through method overloading.
+		It is handled by Compiler.
+		Method overloading can be achieved through
+		1) Class should be same
+		2) Method name should be same
+		3) Parameters should be different
+			i.e. either type, number or sequence of parameters should be different.
+	2. Runtime Polymorphism:
+		This can be achieved through method overriding.
+		It is handled by JVM.
+		Method overriding can be achieved through 
+		1) Class should be different.
+		2) Method name should be same.
+		3) Parameters should be same
+			i.e. either type, number or sequence of parameters should be same.
+
+------------------------------------------------------------------------------------------------------------------
+
+2. How does polymorphism enhance flexibility and extensibility in code?
+Ans:
+	1) Flexibility:
+		Polymorphism enables writing code that can work with objects of different classes through a common class or interface. 
+		This means the same method call can execute different behaviors depending on the object it is acting upon.
+		The code does not need to know the exact type of object it is dealing with.
+		It allows dynamic method invocation (method overriding), enabling runtime decision-making.
+Ex:
+
+class Animal 
+{
+    void makeSound() 
+    {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal 
+{
+    void makeSound() 
+    {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat extends Animal 
+{
+    void makeSound()
+    {
+        System.out.println("Cat meows");
+    }
+}
+
+public class Main 
+{
+    public static void main(String[] args) 
+   {
+        Animal myAnimal = new Dog();  
+        myAnimal.makeSound();         // Output: Dog barks
+
+        myAnimal = new Cat();
+        myAnimal.makeSound();         // Output: Cat meows
+    }
+}
+
+Here in above example, the makeSound() method is invoked on different subclasses without modifying the main program. 
+This allows handling different behaviors seamlessly.
+This is also know as "upcasting" or dynamic method dispatch.
+
+	2) Extensibility:
+		With polymorphism, new functionality can be added without modifying existing code. 
+		This adheres to the Open/Closed Principle (OCP) from SOLID principles, where a class should be open for extension but closed for 			modification.
+
+	Example: Adding a New Animal Without Changing Existing Code
+		 If we introduce a new Cow class, the existing code remains unchanged:
+
+class Cow extends Animal 
+{
+    void makeSound() 
+    {
+        System.out.println("Cow moos");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) 
+    {
+        Animal myAnimal = new Cow();
+        myAnimal.makeSound();  // Output: Cow moos
+    }
+}
+
+
+Real-World Example of Polymorphism in Java
+Scenario: Payment Processing System
+Imagine you are developing an e-commerce platform that supports multiple payment methods like Credit Card, PayPal, and UPI. 
+Instead of writing separate code for each payment method, we can use polymorphism to define a common interface and let 
+different payment types provide their own implementations.
+
+---------------------------------------------------------------------------------------------------------------------
+	
+ 3. Explain the difference between compile-time and runtime polymorphism.
+Ans:
+			Compile Time Polymorphism						Run time Polymorphism
+
+1)	Multiple methods with the same name but different parameter lists	A subclass provides a specific implementation of a method already  
+	in the same class.							defined in its superclass.
+2)	In Compile time Polymorphism, the call is resolved by the compiler.	In Run time Polymorphism, the call is not resolved by the compiler.
+3)	It is also known as Static binding or Early binding.			It is also known as Dynamic binding or Late binding.
+4)	It is achieved by method overloading					It is achieved by method overriding.
+5)	It provides fast execution because the method that needs to be		It provides slow execution as compare to early binding because
+	executed is known early at the compile time.	 			the method that needs to be executed is known at the runtime.
+6)	Compile time polymorphism is less flexible as all things execute	Run time polymorphism is more flexible as all things
+	at compile time.	 						execute at run time.
+7)	Inheritance is not involved. 						Inheritance is involved.
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+
+4. Discuss the concept of method overloading with examples.
+Ans:
+	Method overloading is a feature in Java that allows multiple methods in the same class to have the same name 
+	but different parameter lists. 
+	The compiler differentiates these methods based on the number, type, or sequence of parameters.
+
+	It is an example of Compile-Time Polymorphism.
+	The return type does not determine method overloading.
+	It helps improve code readability and reusability.
+
+	To achieve method overloading we should take care of below rules:
+	-Methods should be present in same class.
+	-Methods should have the same name 
+	-Methods should have different parameter lists.
+		Number of parameters
+		Type of parameters
+		Order of parameters
+	Return type alone cannot distinguish methods.
+
+Examples:
+1) Methods with different number of parameters:
+
+class MathOperations 
+{
+    int add(int a, int b) 
+    {
+        return a + b;
+    }
+
+    int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}
+
+public class Main 
+{
+    public static void main(String[] args) 
+    {
+        MathOperations math = new MathOperations();
+
+        System.out.println(math.add(5, 10));     // Calls method with 2 parameters
+        System.out.println(math.add(5, 10, 15)); // Calls method with 3 parameters
+    }
+}
+
+
+2) Method with different type of parameters
+
+class MathOperations 
+{
+    int multiply(int a, int b) 
+    {
+        return a * b;
+    }
+
+    double multiply(double a, double b) 
+    {
+        return a * b;
+    }
+}
+
+public class Main 
+{
+    public static void main(String[] args) 
+    {
+        MathOperations math = new MathOperations();
+
+        System.out.println(math.multiply(5, 10));      // Calls int version
+        System.out.println(math.multiply(2.5, 3.5));  // Calls double version
+    }
+}
+
+
+3) Method with different sequence of parameters:
+
+class Display 
+{
+    void show(String message, int count) 
+    {
+        System.out.println("Message: " + message + ", Count: " + count);
+    }
+
+    void show(int count, String message) 
+    {
+        System.out.println("Count: " + count + ", Message: " + message);
+    }
+}
+
+public class Main 
+{
+    public static void main(String[] args) 
+    {
+        Display display = new Display();
+
+        display.show("Hello", 5); // Calls method with (String, int)
+        display.show(10, "World"); // Calls method with (int, String)
+    }
+}
+
+
+
+---------------------------------------------------------------------------------------------
+
+
+5. How is method overriding different from method overloading?
+Ans:
+	Method Overriding is used in achieving Run time polymorphism.
+	In method overriding, methods must share the same method signature, including the same name and same parameters.
+	To occur method overriding there must be inheritance.
+	The child/sub class provides the specific implementation of the method that is already provided by the super/parent class.
+	This implies that overridden methods can have different logic implementations compared to the methods in the parent class.
+	The return type must be the same or co-variant (since return type is not part of the signature).
+
+	Example:
+	class BankAccount 
+	{
+    		void interestRate() 
+		{
+        		System.out.println("Bank Account interest rate: 3%");
+    		}
+	}
+
+	class SavingsAccount extends BankAccount 
+	{
+    		void interestRate() 
+		{
+        		System.out.println("Savings Account interest rate: 5%");
+    		}
+	}
+
+	class FixedDepositAccount extends BankAccount 
+	{
+    		void interestRate() 
+		{
+        		System.out.println("Fixed Deposit interest rate: 7%");
+    		}
+	}
+
+	public class Main 
+	{
+    		public static void main(String[] args)
+		{
+        		BankAccount account;
+
+        		account = new SavingsAccount();
+        		account.interestRate();  // Calls SavingsAccount method
+
+	        	account = new FixedDepositAccount();
+        		account.interestRate();  // Calls FixedDepositAccount method
+    		}
+	}
+
+
+	Method Overloading is used in achieving Compile time polymorphism.
+	In method overloading, more than one method shares the same method name with different parameters in the same class.	
+	Parameters can be either different number of parameters or different types of parameters or different order of parameters.
+	The Return type can be same or different, but we have to change the parameter.
+	Example:
+
+	class BankAccount 
+	{
+    		void deposit(int amount) 
+		{
+        		System.out.println("Deposited $" + amount + " in cash.");
+    		}
+
+    		void deposit(String chequeNumber, int amount) 
+		{
+        		System.out.println("Deposited $" + amount + " via cheque: " + chequeNumber);
+    		}
+
+    		void deposit(String upiID, double amount) 
+		{
+        		System.out.println("Deposited $" + amount + " via UPI: " + upiID);
+    		}
+	}
+
+	public class Main 
+	{
+    		public static void main(String[] args) 
+		{
+        		BankAccount account = new BankAccount();
+
+        		account.deposit(1000);                 // Cash deposit
+        		account.deposit("CHK12345", 5000);     // Cheque deposit
+        		account.deposit("user@upi", 2500.50);  // UPI deposit
+    		}
+	}
+
+
+
+-----------------------------------------------------------------------------------------------------
+
+6. Can a subclass overload a method inherited from its superclass?
+Ans:
+	Yes! A subclass can overload a method inherited from its superclass.
+	Overloading means same method name but different parameter lists (number, type, or order of parameters).
+	Since method overloading happens within the same class, a subclass can define additional versions of the 
+	inherited method with different parameter lists.
+	This does not override the superclass method but adds new overloaded versions in the subclass.
+	
+	Example:
+
+	class Parent 
+	{
+    		void display() 
+		{
+        		System.out.println("Display method from Parent class");
+    		}
+	}
+
+	class Child extends Parent 
+	{
+    		void display(String message) 
+		{
+        		System.out.println("Display method from Child class: " + message);
+    		}
+	}
+
+	public class Main 
+	{
+    		public static void main(String[] args) 
+		{
+        		Child obj = new Child();
+        
+        		obj.display(); // Calls Parent's method (inherited)
+        		obj.display("Hello!"); // Calls Child's overloaded method
+    		}
+	}
+
+Output:
+Display method from Parent class
+Display method from Child class: Hello!
+
+
+---------------------------------------------------------------------------------------------
+
+
+7. Explain the concept of virtual methods in Java.
+Ans:
+	A virtual method in Java is a method that is resolved at runtime based on the object's actual type, 
+	not the reference type. 
+	This allows dynamic method dispatch (also known as runtime polymorphism).
+
+	By default, all non-static, non-final methods in Java are virtual methods because they can be overridden in subclasses.
+
+	Working:
+	When a method is overridden in a subclass and called using a parent class reference, Java dynamically determines which
+	method to execute based on the actual object type at runtime.
+	
+	Features of Virtual Methods:
+
+	They allow dynamic method dispatch.
+	They are resolved at runtime, not compile-time.
+	Non-static and non-final methods in Java are virtual by default.
+	They help achieve runtime polymorphism.
+
+	Example:
+
+	class Parent 
+	{
+    		void show() 
+		{ 
+        		System.out.println("Show method from Parent class");
+    		}
+	}
+
+	class Child extends Parent 
+	{
+    		void show() 
+		{ 
+        		System.out.println("Show method from Child class");
+    		}
+	}
+
+	public class Main 
+	{
+    		public static void main(String[] args) 
+		{
+        		Parent obj = new Child(); // Upcasting (Parent reference, Child object)
+        		obj.show(); // Calls Child's method at runtime
+    		}
+	}
+
+
+Even though obj is declared as Parent, the overridden show() method from Child is called at runtime because it is a virtual method.
+
+
+--------------------------------------------------------------------------------------------------------------
+
+
+8. Discuss the use of the super keyword in achieving polymorphism.
+Ans:
+	The super keyword in Java is used to refer to the parent class object and helps achieve runtime polymorphism 
+	by enabling method overriding and dynamic method dispatch.
+	
+	super is primarily used for:
+	-Calling the Parent Class Constructor (Constructor chaining)
+	-Calling the Parent Class Method (To access overridden methods)
+	-Accessing Parent Class Fields (To avoid variable name conflicts)
+
+Example for polymorphism:
+	When a subclass overrides a method, you can use super.methodName() to call the parent class's version of that method.
+	
+	class Animal 
+	{
+    		void sound()
+ 		{
+        		System.out.println("Animal makes a sound");
+    		}
+	}
+
+	class Dog extends Animal 
+	{
+        	void sound() 
+		{
+        		super.sound(); // Calls the overridden method in Animal
+        		System.out.println("Dog barks");
+    		}
+	}
+
+	public class Main 
+	{
+    		public static void main(String[] args) 
+		{
+        		Dog d = new Dog();
+        		d.sound(); // Calls the overridden method
+    		}
+	}
+
+	Output:
+	Animal makes a sound
+	Dog barks
+
+
+	So here with the help of super we achieved a polymorphism as :
+
+	Without super.sound(), only "Dog barks" would be printed.
+	With super.sound(), both the parent and child class behaviors are included.
+	This allows subclass behavior to extend rather than replace the parent class behavior.
+
+--------------------------------------------------------------------------------------------------
+
+9. How does Java support polymorphism through interfaces?
+Ans:
+	Java supports polymorphism through interfaces, allowing multiple classes to implement the same interface 
+	and providing different implementations for the methods. 
+	This enables dynamic method dispatch and flexibility in code design.	
+	
+	Example:
+
+	interface Payment 
+	{
+    		void pay(double amount);
+	}
+
+
+	class CreditCardPayment implements Payment 
+	{
+ 		public void pay(double amount) 
+		{
+        		System.out.println("Paid $" + amount + " using Credit Card.");
+    		}
+	}
+
+
+	class PayPalPayment implements Payment 
+	{
+    		public void pay(double amount) 
+		{
+        		System.out.println("Paid $" + amount + " using PayPal.");
+    		}
+	}
+
+	public class Main 
+	{
+    		public static void main(String[] args) 
+		{
+        	        Payment payment1 = new CreditCardPayment();
+        		Payment payment2 = new PayPalPayment();
+        
+        		// Dynamic method dispatch (runtime polymorphism)
+        		payment1.pay(100.50);
+        		payment2.pay(75.25);
+    		}
+	}
+
+Output:
+Paid $100.5 using Credit Card.
+Paid $75.25 using PayPal.
+
+
+Here the pay() method is called on different objects at runtime, but the reference type is the same (Payment interface).
+
+	Multiple Interfaces and Polymorphism:
+	Java allows a class to implement multiple interfaces, which is another way it achieves polymorphism
+
+	interface A 
+	{
+    		void methodA();
+	}
+
+	interface B 
+	{
+    		void methodB();
+	}
+
+	class C implements A, B 
+	{
+    		public void methodA() 
+		{
+        		System.out.println("Method A from Interface A");
+    		}
+
+
+    		public void methodB() 
+		{
+        		System.out.println("Method B from Interface B");
+    		}
+	}
+
+	public class Main 
+	{
+    		public static void main(String[] args) 
+		{
+        		C obj = new C();
+        		obj.methodA(); // Calls method from Interface A
+        		obj.methodB(); // Calls method from Interface B
+    		}
+	}
+
+Output:
+Method A from Interface A
+Method B from Interface B
+
+
+----------------------------------------------------------------------------------------
+
+	
+ 10. What is the role of the instanceof operator in polymorphism?
+Ans:
+	The instanceof operator in Java is used to check whether an object is an instance of a specific class or subclass. 
+	It plays an important role in polymorphism by allowing us to determine an object's actual type at runtime before 
+	performing operations on it.
+
+	Used in Downcasting: Ensures safe type casting from parent to child class.
+	Implements Dynamic Method Resolution: Helps determine the actual class type at runtime.
+	Avoids ClassCastException: Prevents invalid type casting.
+	Used in Conditional Logic: Enables different behavior based on the object's actual type.
+
+Example:
+
+class Animal 
+{
+    void makeSound() 
+    {
+        System.out.println("Some generic animal sound");
+    }
+}
+
+class Dog extends Animal 
+{
+    void makeSound() 
+    {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat extends Animal 
+{
+    void makeSound() 
+    {
+        System.out.println("Cat meows");
+    }
+}
+
+public class Main 
+{
+     public static void main(String[] args) 
+     {
+        Animal a = new Dog();
+        
+        if (a instanceof Dog) 
+	{
+            System.out.println("This is a Dog");
+        } 
+	else if (a instanceof Cat) 
+	{
+            System.out.println("This is a Cat");
+        }
+
+        a.makeSound(); 
+    }
+}
+
+Output:
+This is a Dog
+Dog barks
+
+
+here instanceof operator helps determine the actual object type (Dog or Cat) before executing logic.
+Supports runtime polymorphism by invoking overridden methods dynamically.
+
+
+--------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+
+ 11. Provide an example of polymorphism using the toString method.
+ 12. Explain how polymorphism is related to dynamic method dispatch.
+ 13. Discuss the advantages of using polymorphism in software design.
+ 14. Can a class be both abstract and polymorphic in Java? Justify.
+ 15. How does polymorphism contribute to code readability?
+ 16. Explain the concept of covariant return types in polymorphism.
+ 17. Discuss the challenges of implementing polymorphism in Java.
+ 18. How can polymorphism be achieved using abstract classes?
+19. What is the significance of the final keyword in polymorphism?
+ 20. Explain the concept of function overloading in polymorphism

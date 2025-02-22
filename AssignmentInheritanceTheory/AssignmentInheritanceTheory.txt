@@ -49,7 +49,7 @@ Ans:	final keyword can influence inheritance in java on variables, methods and c
 	    	max_value = 200; , this will gives error as we can't reassign a value to final variable.
 
 	2) Method:
-		When we declare method as final in parent class, then we cannot override that method in child class. This ensures that the methods implementation remains unchanged in 			child class.
+		When we declare method as final in parent class, then we cannot override that method in child class. This ensures that the methods implementation remains unchanged in child class.
 
 	3) Class:
 		When we declare class as final class, then we can not extend that class by another class that is we can't inherit that final class.
